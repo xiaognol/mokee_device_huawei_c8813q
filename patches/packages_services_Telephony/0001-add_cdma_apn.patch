@@ -1,0 +1,34 @@
+From a24db470520ba1af06136209b7180226d0b473b7 Mon Sep 17 00:00:00 2001
+From: root <317065820@qq.com>
+Date: Wed, 23 Apr 2014 17:47:21 +0800
+Subject: [PATCH] add_cdma_apn
+
+Change-Id: Ic1d7139cf47493ce78bef4a9352c8dc4d8c474e9
+Signed-off-by: root <317065820@qq.com>
+---
+ res/xml/cdma_options.xml | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/res/xml/cdma_options.xml b/res/xml/cdma_options.xml
+index 60889a6..bce0a8a 100644
+--- a/res/xml/cdma_options.xml
++++ b/res/xml/cdma_options.xml
+@@ -40,6 +40,15 @@
+             <extra android:name="autoStart" android:value="true" />
+         </intent>
+     </PreferenceScreen>
++    
++    <PreferenceScreen 
++        android:persistent="false"
++        android:title="@string/apn_settings"
++        android:key="button_apn_key">
++        <intent android:targetPackage="com.android.settings"
++                android:action="android.intent.action.MAIN"
++                android:targetClass="com.android.settings.Settings$ApnSettingsActivity" />
++    </PreferenceScreen>
+ 
+     <PreferenceScreen
+         android:key="carrier_settings_key"
+-- 
+1.8.3.2
+
