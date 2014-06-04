@@ -1,0 +1,26 @@
+From e2fc23af2126ca2bc53bd3b8fca26b25eaab2f62 Mon Sep 17 00:00:00 2001
+From: xiaognol <317065820@qq.com>
+Date: Wed, 4 Jun 2014 21:03:04 +0800
+Subject: [PATCH] add data network state changed
+
+Change-Id: Ica684bef60d62e1dfc39c0a533be62d4e28e3d31
+Signed-off-by: xiaognol <317065820@qq.com>
+---
+ telephony/java/com/android/internal/telephony/RILConstants.java | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/telephony/java/com/android/internal/telephony/RILConstants.java b/telephony/java/com/android/internal/telephony/RILConstants.java
+index 72a0729..b735a49 100644
+--- a/telephony/java/com/android/internal/telephony/RILConstants.java
++++ b/telephony/java/com/android/internal/telephony/RILConstants.java
+@@ -338,6 +338,7 @@ cat include/telephony/ril.h | \
+     int RIL_UNSOL_CELL_INFO_LIST = 20000;
+     int RIL_UNSOL_RESPONSE_IMS_NETWORK_STATE_CHANGED = 1036;
+     int RIL_UNSOL_TETHERED_MODE_STATE_CHANGED = 1037;
++    int RIL_UNSOL_DATA_NETWORK_STATE_CHANGED = 1038;
+     int RIL_UNSOL_ON_SS = 1039;
+     int RIL_UNSOL_STK_CC_ALPHA_NOTIFY = 1040;
+     int RIL_UNSOL_UICC_SUBSCRIPTION_STATUS_CHANGED = 1041;
+-- 
+1.8.3.2
+
