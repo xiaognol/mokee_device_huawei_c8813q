@@ -99,12 +99,12 @@ TARGET_PROVIDES_LIBLIGHTS := true
 # Hopefully they can join their friends at $(KERNEL_MODULES_OUT) soon. :(
 KERNEL_EXTERNAL_MODULES:
 	mkdir -p $(TARGET_ROOT_OUT)/wifi
-	rm -rf $(TARGET_OUT_INTERMEDIATES)/ath6kl-huawei
-	cp -a hardware/atheros/wifi/ath6kl-huawei $(TARGET_OUT_INTERMEDIATES)/
-	$(MAKE) -C $(TARGET_OUT_INTERMEDIATES)/ath6kl-huawei/cfg80211 KERNEL_OUT=$(KERNEL_OUT) ARCH="arm" CROSS_COMPILE="arm-eabi-" modules
-	$(MAKE) -C $(TARGET_OUT_INTERMEDIATES)/ath6kl-huawei/ar6000 KERNEL_OUT=$(KERNEL_OUT) ARCH="arm" CROSS_COMPILE="arm-eabi-" modules
-	$(TARGET_OBJCOPY) --strip-unneeded $(TARGET_OUT_INTERMEDIATES)/ath6kl-huawei/cfg80211/cfg80211.ko $(TARGET_ROOT_OUT)/wifi/cfg80211.ko
-	$(TARGET_OBJCOPY) --strip-unneeded $(TARGET_OUT_INTERMEDIATES)/ath6kl-huawei/ar6000/ar6000.ko $(TARGET_ROOT_OUT)/wifi/ar6000.ko
+	rm -rf $(TARGET_OUT_INTERMEDIATES)/ath6kl-8x25Q
+	cp -a hardware/atheros/wifi/ath6kl-8x25Q $(TARGET_OUT_INTERMEDIATES)/
+	$(MAKE) -C $(TARGET_OUT_INTERMEDIATES)/ath6kl-8x25Q/cfg80211 KERNEL_OUT=$(KERNEL_OUT) ARCH="arm" CROSS_COMPILE="arm-eabi-" modules
+	$(MAKE) -C $(TARGET_OUT_INTERMEDIATES)/ath6kl-8x25Q/ar6000 KERNEL_OUT=$(KERNEL_OUT) ARCH="arm" CROSS_COMPILE="arm-eabi-" modules
+	$(TARGET_OBJCOPY) --strip-unneeded $(TARGET_OUT_INTERMEDIATES)/ath6kl-8x25Q/cfg80211/cfg80211.ko $(TARGET_ROOT_OUT)/wifi/cfg80211.ko
+	$(TARGET_OBJCOPY) --strip-unneeded $(TARGET_OUT_INTERMEDIATES)/ath6kl-8x25Q/ar6000/ar6000.ko $(TARGET_ROOT_OUT)/wifi/ar6000.ko
 
 TARGET_KERNEL_MODULES := KERNEL_EXTERNAL_MODULES
 
