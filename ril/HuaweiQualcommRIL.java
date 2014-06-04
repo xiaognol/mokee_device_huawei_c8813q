@@ -307,7 +307,7 @@ public class HuaweiQualcommRIL extends QualcommSharedRIL implements CommandsInte
             case RIL_UNSOL_RIL_CONNECTED: ret = responseInts(p); break;
             case 1035: ret = responseVoid(p); break; // RIL_UNSOL_VOICE_RADIO_TECH_CHANGED
             case 1036: ret = responseVoid(p); break; // RIL_UNSOL_RESPONSE_IMS_NETWORK_STATE_CHANGED
-            case 1037: ret = responseVoid(p); break; // RIL_UNSOL_EXIT_EMERGENCY_CALLBACK_MODE
+            case 1033: ret = responseVoid(p); break; // RIL_UNSOL_EXIT_EMERGENCY_CALLBACK_MODE
             case 1038: ret = responseVoid(p); break; // RIL_UNSOL_DATA_NETWORK_STATE_CHANGED
 
             default:
@@ -335,7 +335,7 @@ public class HuaweiQualcommRIL extends QualcommSharedRIL implements CommandsInte
             case 1035:
             case 1036:
                 break;
-            case 1037: // RIL_UNSOL_EXIT_EMERGENCY_CALLBACK_MODE
+            case 1033: // RIL_UNSOL_EXIT_EMERGENCY_CALLBACK_MODE
                 if (RILJ_LOGD) unsljLogRet(response, ret);
 
                 if (mExitEmergencyCallbackModeRegistrants != null) {
@@ -388,3 +388,4 @@ public class HuaweiQualcommRIL extends QualcommSharedRIL implements CommandsInte
         setRadioState (radioState);
     }
 }
+
