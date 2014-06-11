@@ -186,16 +186,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.fm.transmitter=false \
     ro.fm.mulinst.recording.support=false
 
-PRODUCT_PROPERTY_OVERRIDES += \
-    gsm.version.baseband=3110 \
-    rild.libpath=/system/lib/libril-qc-qmi-1.so \
-    ro.telephony.ril.v3=qcomdsds,skippinpukcount \
-    ro.telephony.ril_class=HuaweiCdmaQcomRIL \
-    ro.cdma.home.operator.numeric=46003 \
-    ro.telephony.default_network=4 \
-    ro.telephony.default_cdma_sub=0 \
-    ro.cdma.factory=china \
-    ro.cdma.home.operator.alpha=中国电信
 
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full.mk)
 
