@@ -1,4 +1,4 @@
-From 28996e05bc60b439911d96f751cbe63e3d68031f Mon Sep 17 00:00:00 2001
+From 5c71d060a3127012d14de7db21f9172ab7818666 Mon Sep 17 00:00:00 2001
 From: xiaognol <317065820@qq.com>
 Date: Fri, 30 May 2014 16:22:22 +0800
 Subject: [PATCH] add vold switchablePair and thermal
@@ -16,7 +16,7 @@ Signed-off-by: xiaognol <317065820@qq.com>
  7 files changed, 110 insertions(+), 3 deletions(-)
 
 diff --git a/AndroidManifest.xml b/AndroidManifest.xml
-index a7ab17b..d009a15 100644
+index 65e3231..1168705 100644
 --- a/AndroidManifest.xml
 +++ b/AndroidManifest.xml
 @@ -72,6 +72,7 @@
@@ -28,13 +28,13 @@ index a7ab17b..d009a15 100644
      <!-- MOKEE PUSH PERMISSION START -->
      <uses-permission android:name="android.permission.BROADCAST_STICKY" />
 diff --git a/res/values-zh-rCN/cm_strings.xml b/res/values-zh-rCN/cm_strings.xml
-index c682bc7..32a7cde 100644
+index f33eded..041686f 100644
 --- a/res/values-zh-rCN/cm_strings.xml
 +++ b/res/values-zh-rCN/cm_strings.xml
-@@ -869,4 +869,15 @@
-   <string name="autoperf_title">启用独立的应用程序配置</string>
-   <string name="autoperf_summary">自动为应用程序切换适合的性能配置</string>
-   <string name="graphics_title">图形和渲染</string>
+@@ -859,4 +859,15 @@
+   <string name="menu_hidden_apps_reset_lock">重置锁定图案</string>
+   <string name="protected_apps">受保护的应用</string>
+   <string name="saving_protected_components">正在保存组件状态\u2026</string>
 +    <!-- Performance Settings : Set on thermal option -->
 +  <string name="performance_set_thermal">温控调频</string>
 +  <string name="thermal_on_summary">温控调节模式开启中，最高频率将不支持手动锁定</string>
@@ -48,10 +48,10 @@ index c682bc7..32a7cde 100644
 +想现在就重启吗？"</string>
  </resources>
 diff --git a/res/values/cm_strings.xml b/res/values/cm_strings.xml
-index 0e07067..b638f4e 100644
+index a8076fa..25b4474 100644
 --- a/res/values/cm_strings.xml
 +++ b/res/values/cm_strings.xml
-@@ -724,6 +724,16 @@ two in order to insert additional control points. \'Remove\' deletes the selecte
+@@ -703,6 +703,16 @@ two in order to insert additional control points. \'Remove\' deletes the selecte
      <string name="adb_notify">USB debugging notify</string>
      <string name="adb_notify_summary">Display a notification when USB debugging is connected</string>
  
@@ -98,7 +98,7 @@ index c6064e1..d358558 100644
 +        android:title="@string/performance_set_thermal" />
  </PreferenceScreen>
 diff --git a/src/com/android/settings/cyanogenmod/PerformanceSettings.java b/src/com/android/settings/cyanogenmod/PerformanceSettings.java
-index ec00153..702be9f 100644
+index e3380fd..47f8d97 100644
 --- a/src/com/android/settings/cyanogenmod/PerformanceSettings.java
 +++ b/src/com/android/settings/cyanogenmod/PerformanceSettings.java
 @@ -58,6 +58,10 @@ public class PerformanceSettings extends SettingsPreferenceFragment implements
@@ -138,7 +138,7 @@ index ec00153..702be9f 100644
          } else {
              // If we didn't handle it, let preferences handle it.
              return super.onPreferenceTreeClick(preferenceScreen, preference);
-@@ -220,4 +234,16 @@ public class PerformanceSettings extends SettingsPreferenceFragment implements
+@@ -232,4 +246,16 @@ public class PerformanceSettings extends SettingsPreferenceFragment implements
          mPerfProfilePref.setValue(mPowerManager.getPowerProfile());
          setCurrentPerfProfileSummary();
      }
