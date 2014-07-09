@@ -177,9 +177,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
     wifi.supplicant_scan_interval=60
     
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.confg.hw_appfsversion=C8813QV4_3_SYSIMG \
-    ro.confg.hw_appsbootversion=C8813QV4_3_APPSBOOT \
-    ro.confg.hw_appversion=C8813QV4_3_KERNEL
+    ro.confg.hw_appfsversion=C8813QV4_4_SYSIMG \
+    ro.confg.hw_appsbootversion=C8813QV4_4_APPSBOOT \
+    ro.confg.hw_appversion=C8813QV4_4_KERNEL
 
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.fm.analogpath.supported=false \
