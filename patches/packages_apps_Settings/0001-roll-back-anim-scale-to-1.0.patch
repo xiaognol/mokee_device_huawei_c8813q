@@ -1,0 +1,27 @@
+From b71a91139c72f9ce98fa2af977535a43608c697a Mon Sep 17 00:00:00 2001
+From: xiaognol <317065820@qq.com>
+Date: Sun, 13 Jul 2014 01:26:03 +0800
+Subject: [PATCH] roll back anim scale to 1.0
+
+Change-Id: Ie0cc102143b9b9a5644fa05b6c4eb22b27fb8aa1
+Signed-off-by: xiaognol <317065820@qq.com>
+---
+ src/com/android/settings/DevelopmentSettings.java | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/com/android/settings/DevelopmentSettings.java b/src/com/android/settings/DevelopmentSettings.java
+index 3f18fab..99357c5 100644
+--- a/src/com/android/settings/DevelopmentSettings.java
++++ b/src/com/android/settings/DevelopmentSettings.java
+@@ -1228,7 +1228,7 @@ public class DevelopmentSettings extends RestrictedSettingsFragment
+     private void writeAnimationScaleOption(int which, AnimationScalePreference pref,
+             Object newValue) {
+         try {
+-            float scale = newValue != null ? Float.parseFloat(newValue.toString()) : 0.75f;
++            float scale = newValue != null ? Float.parseFloat(newValue.toString()) : 1;
+             mWindowManager.setAnimationScale(which, scale);
+             updateAnimationScaleValue(which, pref);
+         } catch (RemoteException e) {
+-- 
+1.8.3.2
+

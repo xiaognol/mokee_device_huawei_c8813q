@@ -22,13 +22,13 @@
     <string-array name="enabled_networks_choices" translatable="false">
         <item>CDMA/EvDo auto</item>
         <item>@string/network_1x</item>
-        <item>@string/network_2G</item>
+        <item>WCDMA prefer</item>
     </string-array>
 
     <string-array name="enabled_networks_values" translatable="false">
         <item>"4"</item>
         <item>"5"</item>
-        <item>"1"</item>
+        <item>"0"</item>
     </string-array>
 
 </resources>
