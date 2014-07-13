@@ -1,0 +1,36 @@
+From 96ec14dc522b790dad7c9c363f04e55f80cabd98 Mon Sep 17 00:00:00 2001
+From: xiaognol <317065820@qq.com>
+Date: Sun, 13 Jul 2014 21:23:10 +0800
+Subject: [PATCH] re-add button_apn_key to fix phone app crash
+
+Change-Id: I78eae9c7ef22160c1059b7de01f8ecb9cdcb7c8e
+Signed-off-by: xiaognol <317065820@qq.com>
+---
+ res/xml/gsm_umts_options.xml | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/res/xml/gsm_umts_options.xml b/res/xml/gsm_umts_options.xml
+index a61a835..9633ce0 100644
+--- a/res/xml/gsm_umts_options.xml
++++ b/res/xml/gsm_umts_options.xml
+@@ -18,6 +18,17 @@
+         xmlns:settings="http://schemas.android.com/apk/res/com.android.phone">
+ 
+     <PreferenceScreen
++	 android:key="button_apn_key"
++         android:title="@string/apn_settings"
++         android:persistent="false">
++ 
++         <intent android:action="android.intent.action.MAIN"
++             android:targetPackage="com.android.settings"
++             android:targetClass="com.android.settings.Settings$ApnSettingsActivity" />
++ 
++     </PreferenceScreen>
++
++     <PreferenceScreen
+         android:key="button_carrier_sel_key"
+         android:title="@string/networks"
+         android:summary="@string/sum_carrier_select"
+-- 
+1.8.3.2
+
