@@ -1,40 +1,26 @@
-From 5c71d060a3127012d14de7db21f9172ab7818666 Mon Sep 17 00:00:00 2001
+From 20a5bcd48b11a6a66ce1623325811f73b17ad6c2 Mon Sep 17 00:00:00 2001
 From: xiaognol <317065820@qq.com>
-Date: Fri, 30 May 2014 16:22:22 +0800
-Subject: [PATCH] add vold switchablePair and thermal
+Date: Thu, 17 Jul 2014 22:51:55 +0800
+Subject: [PATCH] 0001-add-vold-switchablePair-and-thermal
 
-Change-Id: Ib5c5b80d75b946df6d346314445ee218fa9e4f41
+Change-Id: Ife6d287796091c8b20f9b43621b887cc49803138
 Signed-off-by: xiaognol <317065820@qq.com>
 ---
- AndroidManifest.xml                                |  1 +
- res/values-zh-rCN/cm_strings.xml                   | 11 +++++
- res/values/cm_strings.xml                          | 10 ++++
- res/xml/device_info_memory.xml                     |  5 ++
- res/xml/performance_settings.xml                   |  4 +-
- .../settings/cyanogenmod/PerformanceSettings.java  | 28 ++++++++++-
- src/com/android/settings/deviceinfo/Memory.java    | 54 +++++++++++++++++++++-
- 7 files changed, 110 insertions(+), 3 deletions(-)
+ res/values-zh-rCN/cm_strings.xml                   | 11 +++++++++
+ res/values/cm_strings.xml                          | 10 ++++++++
+ res/xml/device_info_memory.xml                     |  5 ++++
+ res/xml/performance_settings.xml                   |  4 +++-
+ .../settings/cyanogenmod/PerformanceSettings.java  | 28 +++++++++++++++++++++-
+ 5 files changed, 56 insertions(+), 2 deletions(-)
 
-diff --git a/AndroidManifest.xml b/AndroidManifest.xml
-index 65e3231..1168705 100644
---- a/AndroidManifest.xml
-+++ b/AndroidManifest.xml
-@@ -72,6 +72,7 @@
-     <uses-permission android:name="android.permission.CHANGE_PRIVACY_GUARD_STATE" />
-     <uses-permission android:name="android.permission.READ_PHONE_BLACKLIST" />
-     <uses-permission android:name="android.permission.CHANGE_PHONE_BLACKLIST" />
-+    <uses-permission android:name="android.permission.REBOOT" />
- 
-     <!-- MOKEE PUSH PERMISSION START -->
-     <uses-permission android:name="android.permission.BROADCAST_STICKY" />
 diff --git a/res/values-zh-rCN/cm_strings.xml b/res/values-zh-rCN/cm_strings.xml
-index f33eded..041686f 100644
+index f8521e9..06ff006 100644
 --- a/res/values-zh-rCN/cm_strings.xml
 +++ b/res/values-zh-rCN/cm_strings.xml
-@@ -859,4 +859,15 @@
-   <string name="menu_hidden_apps_reset_lock">重置锁定图案</string>
-   <string name="protected_apps">受保护的应用</string>
-   <string name="saving_protected_components">正在保存组件状态\u2026</string>
+@@ -16,6 +16,17 @@
+      limitations under the License.
+ -->
+ <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 +    <!-- Performance Settings : Set on thermal option -->
 +  <string name="performance_set_thermal">温控调频</string>
 +  <string name="thermal_on_summary">温控调节模式开启中，最高频率将不支持手动锁定</string>
@@ -46,12 +32,14 @@ index f33eded..041686f 100644
 +  <string name="reboot_prompt_message">"为使设置生效，系统需要重启。
 +
 +想现在就重启吗？"</string>
- </resources>
+   <string name="wifi_setting_countrycode_title">WLAN 区域代码</string>
+   <string name="wifi_setting_countrycode_summary">指定 WLAN 使用的区域码</string>
+   <string name="wifi_setting_countrycode_error">设置区域码时遇到了问题。</string>
 diff --git a/res/values/cm_strings.xml b/res/values/cm_strings.xml
-index a8076fa..25b4474 100644
+index a3ae10c..a5241d2 100644
 --- a/res/values/cm_strings.xml
 +++ b/res/values/cm_strings.xml
-@@ -703,6 +703,16 @@ two in order to insert additional control points. \'Remove\' deletes the selecte
+@@ -690,6 +690,16 @@ two in order to insert additional control points. \'Remove\' deletes the selecte
      <string name="adb_notify">USB debugging notify</string>
      <string name="adb_notify_summary">Display a notification when USB debugging is connected</string>
  
@@ -154,107 +142,6 @@ index e3380fd..47f8d97 100644
 +		}
 +		
 +	}
- }
-diff --git a/src/com/android/settings/deviceinfo/Memory.java b/src/com/android/settings/deviceinfo/Memory.java
-index 52fef32..5b79865 100644
---- a/src/com/android/settings/deviceinfo/Memory.java
-+++ b/src/com/android/settings/deviceinfo/Memory.java
-@@ -32,16 +32,20 @@ import android.hardware.usb.UsbManager;
- import android.os.Bundle;
- import android.os.Environment;
- import android.os.IBinder;
-+import android.os.PowerManager;
- import android.os.RemoteException;
- import android.os.ServiceManager;
-+import android.os.SystemProperties;
- import android.os.UserManager;
- import android.os.storage.IMountService;
- import android.os.storage.StorageEventListener;
- import android.os.storage.StorageManager;
- import android.os.storage.StorageVolume;
-+import android.preference.CheckBoxPreference;
- import android.preference.Preference;
- import android.preference.PreferenceActivity;
- import android.preference.PreferenceScreen;
-+import android.text.TextUtils;
- import android.util.Log;
- import android.view.Menu;
- import android.view.MenuInflater;
-@@ -80,6 +84,10 @@ public class Memory extends SettingsPreferenceFragment {
-     private UsbManager mUsbManager;
- 
-     private ArrayList<StorageVolumePreferenceCategory> mCategories = Lists.newArrayList();
-+    private static final String KEY_SWITCH_STORAGE = "key_switch_storage";
-+    private static final String VOLD_SWITCH_PERSIST_PROP = "persist.sys.vold.switchexternal";
-+    private static final String VOLD_SWITCHABLEPAIR_PROP = "persist.sys.vold.switchablepair";
-+    private CheckBoxPreference mSwitchStoragePref;
- 
-     @Override
-     public void onCreate(Bundle icicle) {
-@@ -94,6 +102,27 @@ public class Memory extends SettingsPreferenceFragment {
- 
-         addPreferencesFromResource(R.xml.device_info_memory);
- 
-+        String voldswitch = SystemProperties.get(VOLD_SWITCH_PERSIST_PROP, "0");
-+        mSwitchStoragePref = (CheckBoxPreference) findPreference(KEY_SWITCH_STORAGE);
-+        mSwitchStoragePref.setChecked("1".equals(voldswitch));
-+        if (!Environment.isExternalStorageEmulated()) {
-+            Log.i(TAG, "Checking to see if vold switch is possible on this device.");
-+            String PRIMARY_STORAGE = System.getenv("EXTERNAL_STORAGE");
-+            String SECONDARY_STORAGE = System.getenv("SECONDARY_STORAGE");
-+            if (!TextUtils.isEmpty(PRIMARY_STORAGE) && !TextUtils.isEmpty(SECONDARY_STORAGE)) {
-+                SystemProperties.set(VOLD_SWITCHABLEPAIR_PROP, PRIMARY_STORAGE + ',' +
-+                        SECONDARY_STORAGE);
-+                Log.i(TAG, "Setting persist.sys.vold.switchablepair=" + PRIMARY_STORAGE + ',' +
-+                        SECONDARY_STORAGE);
-+            } else {
-+                Log.i(TAG, "Vold switch not possible on this device.");
-+            }
-+        }
-+
-+        if (SystemProperties.get(VOLD_SWITCHABLEPAIR_PROP).equals("")) {
-+            removePreference(KEY_SWITCH_STORAGE);
-+        }
-+
-         addCategory(StorageVolumePreferenceCategory.buildForInternal(context));
- 
-         final StorageVolume[] storageVolumes = mStorageManager.getVolumeList();
-@@ -213,7 +242,13 @@ public class Memory extends SettingsPreferenceFragment {
- 
-     @Override
-     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
--        if (StorageVolumePreferenceCategory.KEY_CACHE.equals(preference.getKey())) {
-+        if(preference == mSwitchStoragePref) {
-+            Log.d(TAG,"Setting persist.sys.vold.switchexternal to "+(
-+                    mSwitchStoragePref.isChecked() ? "1" : "0"));
-+            SystemProperties.set(VOLD_SWITCH_PERSIST_PROP,
-+                    mSwitchStoragePref.isChecked() ? "1" : "0");
-+            showRebootPrompt();
-+        } else if (StorageVolumePreferenceCategory.KEY_CACHE.equals(preference.getKey())) {
-             ConfirmClearCacheFragment.show(this);
-             return true;
-         }
-@@ -423,4 +458,21 @@ public class Memory extends SettingsPreferenceFragment {
-             return builder.create();
-         }
-     }
-+
-+    private void showRebootPrompt() {
-+        AlertDialog dialog = new AlertDialog.Builder(getActivity())
-+                .setTitle(R.string.reboot_prompt_title)
-+                .setMessage(R.string.reboot_prompt_message)
-+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-+                    @Override
-+                    public void onClick(DialogInterface dialog, int which) {
-+                        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-+                        pm.reboot(null);
-+                    }
-+                })
-+                .setNegativeButton(R.string.no, null)
-+                .create();
-+
-+        dialog.show();
-+    }
  }
 -- 
 1.8.3.2
