@@ -90,7 +90,7 @@ TARGET_KERNEL_CONFIG := cm_msm8x25q_defconfig
 BOARD_KERNEL_BASE := 0x00200000
 BOARD_KERNEL_CMDLINE := androidboot.hardware=huawei androidboot.selinux=permissive
 BOARD_PAGE_SIZE := 2048
-TARGET_KERNEL_SOURCE := c8813q-kitkat-dev
+TARGET_KERNEL_SOURCE := c8813q-kitkat
 
 # Lights
 TARGET_PROVIDES_LIBLIGHTS := true

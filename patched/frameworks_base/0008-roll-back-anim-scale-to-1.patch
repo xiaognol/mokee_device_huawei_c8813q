@@ -1,0 +1,31 @@
+From 396fd223a94f795378813dc9b14a0522c540f37e Mon Sep 17 00:00:00 2001
+From: xiaognol <317065820@qq.com>
+Date: Sun, 13 Jul 2014 01:28:28 +0800
+Subject: [PATCH] roll back anim scale to 1.0
+
+Change-Id: I35f3d80d2490207b06fd1be88474053fbb613698
+Signed-off-by: xiaognol <317065820@qq.com>
+---
+ services/java/com/android/server/wm/WindowManagerService.java | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/services/java/com/android/server/wm/WindowManagerService.java b/services/java/com/android/server/wm/WindowManagerService.java
+index 632fb2c..456e10a 100644
+--- a/services/java/com/android/server/wm/WindowManagerService.java
++++ b/services/java/com/android/server/wm/WindowManagerService.java
+@@ -561,9 +561,9 @@ public class WindowManagerService extends IWindowManager.Stub
+ 
+     PowerManagerService mPowerManager;
+ 
+-    float mWindowAnimationScale = 0.75f;
+-    float mTransitionAnimationScale = 0.75f;
+-    float mAnimatorDurationScale = 0.75f;
++    float mWindowAnimationScale = 1.0f;
++    float mTransitionAnimationScale = 1.0f;
++    float mAnimatorDurationScale = 1.0f;
+ 
+     final InputManagerService mInputManager;
+     final DisplayManagerService mDisplayManagerService;
+-- 
+1.8.3.2
+
