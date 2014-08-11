@@ -1,62 +1,49 @@
-From b0548eeeaa9e120b0c752d1704ae9bef280e2e17 Mon Sep 17 00:00:00 2001
+From 34be847c96c8321cf23ce3596922699716e41f69 Mon Sep 17 00:00:00 2001
 From: xiaognol <317065820@qq.com>
-Date: Thu, 15 May 2014 17:35:13 +0800
-Subject: [PATCH] fix-and-muti-color-speed
+Date: Mon, 11 Aug 2014 21:49:55 +0800
+Subject: [PATCH] multi-color-speed
 
-Change-Id: I1221de6b5a0f9566fa0f2f198bc0397cf45522fe
+Change-Id: Ieed01ac7a3e8ea873279b307d04612657a53beb3
 Signed-off-by: xiaognol <317065820@qq.com>
 ---
- .../android/systemui/statusbar/policy/Traffic.java   | 20 ++++++++++++++++----
- 1 file changed, 16 insertions(+), 4 deletions(-)
+ .../android/systemui/statusbar/policy/NetworkTraffic.java | 15 ++++++++++++++-
+ 1 file changed, 14 insertions(+), 1 deletion(-)
 
-diff --git a/packages/MoKeeExt/src/com/android/systemui/statusbar/policy/Traffic.java b/packages/MoKeeExt/src/com/android/systemui/statusbar/policy/Traffic.java
-index 42dd30b..5b418f1 100644
---- a/packages/MoKeeExt/src/com/android/systemui/statusbar/policy/Traffic.java
-+++ b/packages/MoKeeExt/src/com/android/systemui/statusbar/policy/Traffic.java
-@@ -34,7 +34,7 @@ import android.provider.Settings;
- import android.util.AttributeSet;
- import android.view.View;
- import android.widget.TextView;
--
+diff --git a/packages/SystemUIExt/src/com/android/systemui/statusbar/policy/NetworkTraffic.java b/packages/SystemUIExt/src/com/android/systemui/statusbar/policy/NetworkTraffic.java
+index a6e3f17..bb586bd 100644
+--- a/packages/SystemUIExt/src/com/android/systemui/statusbar/policy/NetworkTraffic.java
++++ b/packages/SystemUIExt/src/com/android/systemui/statusbar/policy/NetworkTraffic.java
+@@ -41,6 +41,7 @@ import android.widget.TextView;
+ 
+ import com.android.systemui.R;
+ 
 +import android.graphics.Color;
  import org.mokee.util.MoKeeUtils;
  
- public class Traffic extends TextView {
-@@ -139,10 +139,22 @@ public class Traffic extends TextView {
-                 speedRx = (float) ((mTrafficStats.getTotalRxBytes() - totalRxBytes) * 1000 / td);
-                 if (speedRx / 1048576 >= 1) { // 1024 * 1024
-                     strText += decimalFormat.format(speedRx / 1048576f) + "MB/s";
-+		// Add Multi-Color For Different speed Red---ZJL
-+		    setTextColor(Color.parseColor("#FF3300"));
-                 } else if (speedRx / 1024f >= 1) {
-                     strText += decimalFormat.format(speedRx / 1024f) + "KB/s";
+ /*
+@@ -136,9 +137,21 @@ public class NetworkTraffic extends TextView {
+             long speed = (long)(data / (timeDelta / 1000F));
+             if (speed < KB) {
+                 return decimalFormat.format(speed) + symbol;
+-            } else if (speed < MB) {
++            } else if (speed < KB*50) {
 +		// Add Multi-Color For Different speed Orange---ZJL
-+		    setTextColor(Color.parseColor("#FFFFFF"));
-+			if (speedRx / 1027f >= 50 ){
-+		    setTextColor(Color.parseColor("#FFE500"));
-+			}else if (speedRx / 1027f >= 100 ){
-+		    setTextColor(Color.parseColor("#FF6600"));
-+			}
-                 } else {
--                    strText += speedRx > 0 ? (int) speedRx + "B/s" : showTraffic == 2 ? "0B/s" : "";
-+		// Add traffic speed show all the time if it should
-+                    strText += speedRx > 0 ? (int) speedRx + "B/s" : showTraffic == 2 ? "0B/s" : "0B/s"; 
-+		// Add Multi-Color For Different speed White---ZJL
-+		    setTextColor(Color.parseColor("#FFFFFF"));
-                 }
-                 totalRxBytes = mTrafficStats.getTotalRxBytes();
- 
-@@ -161,8 +173,8 @@ public class Traffic extends TextView {
-                 totalTxBytes = mTrafficStats.getTotalTxBytes();
- 
-                 strText = strText.replace("\\n", "\n");
--                setText(speedRx <= 0 && speedTx <= 0 ? "" : strText);
--
-+		// Add traffic speed show all the time if it should
-+		setText(showTraffic == 1 && speedRx <= 0 ? "0B/s" : showTraffic == 2 && speedRx <= 0 && speedTx <= 0 ? "DL: 0B/s\nUL: 0B/s" : strText); 
-                 update();
-                 super.handleMessage(msg);
++		setTextColor(Color.parseColor("#FFFFFF"));
++                return decimalFormat.format(speed / (float)KB) + 'K' + symbol;
++	    } else if (speed < KB*100) {
++		// Add Multi-Color For Different speed Orange---ZJL
++		setTextColor(Color.parseColor("#FFE500"));
++                return decimalFormat.format(speed / (float)KB) + 'K' + symbol;
++	    } else if (speed < MB) {
++		// Add Multi-Color For Different speed Orange---ZJL
++		 setTextColor(Color.parseColor("#FF6600"));
+                 return decimalFormat.format(speed / (float)KB) + 'K' + symbol;
+             } else if (speed < GB) {
++		// Add Multi-Color For Different speed Red---ZJL
++		setTextColor(Color.parseColor("#FF3300"));
+                 return decimalFormat.format(speed / (float)MB) + 'M' + symbol;
              }
+             return decimalFormat.format(speed / (float)GB) + 'G' + symbol;
 -- 
 1.8.3.2
 
