@@ -1,30 +1,26 @@
-From 1fafc7258393e454102f9b6584b1844edbabf483 Mon Sep 17 00:00:00 2001
-From: dianlujitao <dianlujitao@gmail.com>
-Date: Mon, 9 Jun 2014 21:43:37 +0800
-Subject: [PATCH 1/3] Add setting for Vold Switchable Pair (2/2)
+From 85395aa2e301a67650cce67b90eb753d2e0949d0 Mon Sep 17 00:00:00 2001
+From: xiaognol <317065820@qq.com>
+Date: Mon, 25 Aug 2014 20:44:18 +0800
+Subject: [PATCH] Add-setting-for-Vold-Switchable-Pair
 
-This will be hidden unless the device has non-emulated internal storage
-and an external SD, in which case persist.sys.vold.switchablepair will be
-set automaticaly.  This does away with the need for ro.vold.switchablepair
-to be set in the build.prop.
-
-Change-Id: I3f234a0129311a8568663297f608e80673ba1493
+Change-Id: I9be23492b75f5b42eb1267c6d9ee81443e172565
 Signed-off-by: xiaognol <317065820@qq.com>
 ---
- res/values-zh-rCN/cm_strings.xml                |  5 +++
+ res/values-zh-rCN/cm_strings.xml                |  6 +++
  res/values/cm_strings.xml                       |  7 ++++
  res/xml/device_info_memory.xml                  |  5 +++
  src/com/android/settings/deviceinfo/Memory.java | 53 ++++++++++++++++++++++++-
- 4 files changed, 69 insertions(+), 1 deletion(-)
+ 4 files changed, 70 insertions(+), 1 deletion(-)
 
 diff --git a/res/values-zh-rCN/cm_strings.xml b/res/values-zh-rCN/cm_strings.xml
-index 89e400c..2474554 100644
+index 7896003..1ed0aec 100644
 --- a/res/values-zh-rCN/cm_strings.xml
 +++ b/res/values-zh-rCN/cm_strings.xml
-@@ -884,4 +884,9 @@
-   <string name="spam_last_blocked_title">最后一次被阻止： %1$s</string>
+@@ -888,4 +888,10 @@
    <string name="block_notifications_title">通知过滤</string>
-   <string name="no_filters_title">没有设置过滤</string>
+   <string name="block_notifications_summary">管理已忽略的通知和过滤器</string>
+   <string name="no_filters_title">没有设置过滤器。若要过滤通知，请长按它并选择“忽略像这样的消息”。</string>
++  <string name="no_filters_title">没有设置过滤</string>
 +  <string name="storage_switch_title">默认存储位置切换</string>
 +  <string name="storage_switch_summary_off">使用内置存储存放数据</string>
 +  <string name="storage_switch_summary_on">使用SD卡存放数据</string>
@@ -32,10 +28,10 @@ index 89e400c..2474554 100644
 +  <string name="reboot_prompt_message">"为了应用改变，需要重启设备。\n\n你是否想现在重启？"</string>
  </resources>
 diff --git a/res/values/cm_strings.xml b/res/values/cm_strings.xml
-index bed6a3e..6b31f14 100644
+index 2ba70bb..187806a 100644
 --- a/res/values/cm_strings.xml
 +++ b/res/values/cm_strings.xml
-@@ -696,6 +696,13 @@ two in order to insert additional control points. \'Remove\' deletes the selecte
+@@ -702,6 +702,13 @@ two in order to insert additional control points. \'Remove\' deletes the selecte
      <string name="adb_notify">USB debugging notify</string>
      <string name="adb_notify_summary">Display a notification when USB debugging is connected</string>
  
