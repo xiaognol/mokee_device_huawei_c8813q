@@ -1,9 +1,9 @@
-From b71a91139c72f9ce98fa2af977535a43608c697a Mon Sep 17 00:00:00 2001
+From 2eee447b1da0b435899a587eb34b58067d1abe01 Mon Sep 17 00:00:00 2001
 From: xiaognol <317065820@qq.com>
-Date: Sun, 13 Jul 2014 01:26:03 +0800
-Subject: [PATCH] roll back anim scale to 1.0
+Date: Thu, 4 Sep 2014 20:18:30 +0800
+Subject: [PATCH] roll-back-anim-scale-to-1.0
 
-Change-Id: Ie0cc102143b9b9a5644fa05b6c4eb22b27fb8aa1
+Change-Id: I7d6642e9684a3ae287385a62abdce6f90c83f9bb
 Signed-off-by: xiaognol <317065820@qq.com>
 ---
  src/com/android/settings/DevelopmentSettings.java | 2 +-
