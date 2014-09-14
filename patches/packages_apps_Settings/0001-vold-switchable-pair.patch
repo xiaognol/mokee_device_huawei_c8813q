@@ -1,26 +1,25 @@
-From 85395aa2e301a67650cce67b90eb753d2e0949d0 Mon Sep 17 00:00:00 2001
+From a6c36146f7180f95ccefaf9822fdd2d5e99721c2 Mon Sep 17 00:00:00 2001
 From: xiaognol <317065820@qq.com>
-Date: Mon, 25 Aug 2014 20:44:18 +0800
+Date: Sun, 14 Sep 2014 14:03:57 +0800
 Subject: [PATCH] Add-setting-for-Vold-Switchable-Pair
 
-Change-Id: I9be23492b75f5b42eb1267c6d9ee81443e172565
+Change-Id: I1ffd1590805d5e56967820dba5c74847e77635f4
 Signed-off-by: xiaognol <317065820@qq.com>
 ---
- res/values-zh-rCN/cm_strings.xml                |  6 +++
+ res/values-zh-rCN/cm_strings.xml                |  5 +++
  res/values/cm_strings.xml                       |  7 ++++
- res/xml/device_info_memory.xml                  |  5 +++
- src/com/android/settings/deviceinfo/Memory.java | 53 ++++++++++++++++++++++++-
- 4 files changed, 70 insertions(+), 1 deletion(-)
+ res/xml/device_info_memory.xml                  |  7 +++-
+ src/com/android/settings/deviceinfo/Memory.java | 52 ++++++++++++++++++++++++-
+ 4 files changed, 69 insertions(+), 2 deletions(-)
 
 diff --git a/res/values-zh-rCN/cm_strings.xml b/res/values-zh-rCN/cm_strings.xml
-index 7896003..1ed0aec 100644
+index 3f5c5b3..b67fbcc 100644
 --- a/res/values-zh-rCN/cm_strings.xml
 +++ b/res/values-zh-rCN/cm_strings.xml
-@@ -888,4 +888,10 @@
-   <string name="block_notifications_title">通知过滤</string>
-   <string name="block_notifications_summary">管理已忽略的通知和过滤器</string>
-   <string name="no_filters_title">没有设置过滤器。若要过滤通知，请长按它并选择“忽略像这样的消息”。</string>
-+  <string name="no_filters_title">没有设置过滤</string>
+@@ -930,4 +930,9 @@
+   <string name="sd_media_format_button_text">擦除 SD 卡</string>
+   <string name="sd_media_format_final_desc">确定要擦除 SD 卡，删除其中存储的全部文件吗？您无法撤消该操作！</string>
+   <string name="sd_media_format_gesture_explanation">您需要绘制解锁图案以确认要擦除 SD 卡。</string>
 +  <string name="storage_switch_title">默认存储位置切换</string>
 +  <string name="storage_switch_summary_off">使用内置存储存放数据</string>
 +  <string name="storage_switch_summary_on">使用SD卡存放数据</string>
@@ -28,10 +27,10 @@ index 7896003..1ed0aec 100644
 +  <string name="reboot_prompt_message">"为了应用改变，需要重启设备。\n\n你是否想现在重启？"</string>
  </resources>
 diff --git a/res/values/cm_strings.xml b/res/values/cm_strings.xml
-index 2ba70bb..187806a 100644
+index 7c663f3..ae28a47 100644
 --- a/res/values/cm_strings.xml
 +++ b/res/values/cm_strings.xml
-@@ -702,6 +702,13 @@ two in order to insert additional control points. \'Remove\' deletes the selecte
+@@ -703,6 +703,13 @@ two in order to insert additional control points. \'Remove\' deletes the selecte
      <string name="adb_notify">USB debugging notify</string>
      <string name="adb_notify_summary">Display a notification when USB debugging is connected</string>
  
@@ -46,23 +45,25 @@ index 2ba70bb..187806a 100644
      <string name="adb_over_network">ADB over network</string>
      <string name="adb_over_network_summary">Enable TCP/IP debugging over network interfaces (Wi-Fi, USB networks). This setting is reset on reboot</string>
 diff --git a/res/xml/device_info_memory.xml b/res/xml/device_info_memory.xml
-index e905f39..2010b2c 100644
+index e905f39..c9fe206 100644
 --- a/res/xml/device_info_memory.xml
 +++ b/res/xml/device_info_memory.xml
-@@ -16,6 +16,11 @@
+@@ -16,7 +16,12 @@
  
  <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
          android:title="@string/storage_settings_title">
+-
 +    <CheckBoxPreference
 +        android:key="key_switch_storage"
 +        android:title="@string/storage_switch_title"
 +        android:summaryOn="@string/storage_switch_summary_on"
 +        android:summaryOff="@string/storage_switch_summary_off" />
- 
++ 
  <!-- Preference categories are dynamically created based on the list of available storage volumes -->
  
+ </PreferenceScreen>
 diff --git a/src/com/android/settings/deviceinfo/Memory.java b/src/com/android/settings/deviceinfo/Memory.java
-index 52fef32..ab59290 100644
+index 9ca855c..e188c86 100644
 --- a/src/com/android/settings/deviceinfo/Memory.java
 +++ b/src/com/android/settings/deviceinfo/Memory.java
 @@ -32,16 +32,20 @@ import android.hardware.usb.UsbManager;
@@ -86,7 +87,7 @@ index 52fef32..ab59290 100644
  import android.util.Log;
  import android.view.Menu;
  import android.view.MenuInflater;
-@@ -80,6 +84,10 @@ public class Memory extends SettingsPreferenceFragment {
+@@ -81,6 +85,10 @@ public class Memory extends SettingsPreferenceFragment {
      private UsbManager mUsbManager;
  
      private ArrayList<StorageVolumePreferenceCategory> mCategories = Lists.newArrayList();
@@ -97,11 +98,11 @@ index 52fef32..ab59290 100644
  
      @Override
      public void onCreate(Bundle icicle) {
-@@ -94,6 +102,27 @@ public class Memory extends SettingsPreferenceFragment {
+@@ -94,7 +102,26 @@ public class Memory extends SettingsPreferenceFragment {
+         mStorageManager.registerListener(mStorageListener);
  
          addPreferencesFromResource(R.xml.device_info_memory);
- 
-+        String voldswitch = SystemProperties.get(VOLD_SWITCH_PERSIST_PROP, "0");
++	String voldswitch = SystemProperties.get(VOLD_SWITCH_PERSIST_PROP, "0");
 +        mSwitchStoragePref = (CheckBoxPreference) findPreference(KEY_SWITCH_STORAGE);
 +        mSwitchStoragePref.setChecked("1".equals(voldswitch));
 +        if (!Environment.isExternalStorageEmulated()) {
@@ -117,15 +118,14 @@ index 52fef32..ab59290 100644
 +                Log.i(TAG, "Vold switch not possible on this device.");
 +            }
 +        }
-+
+ 
 +        if (SystemProperties.get(VOLD_SWITCHABLEPAIR_PROP).equals("")) {
 +            removePreference(KEY_SWITCH_STORAGE);
 +        }
-+
          addCategory(StorageVolumePreferenceCategory.buildForInternal(context));
  
          final StorageVolume[] storageVolumes = mStorageManager.getVolumeList();
-@@ -213,7 +242,13 @@ public class Memory extends SettingsPreferenceFragment {
+@@ -214,7 +241,13 @@ public class Memory extends SettingsPreferenceFragment {
  
      @Override
      public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
@@ -140,11 +140,12 @@ index 52fef32..ab59290 100644
              ConfirmClearCacheFragment.show(this);
              return true;
          }
-@@ -423,4 +458,20 @@ public class Memory extends SettingsPreferenceFragment {
+@@ -437,4 +470,21 @@ public class Memory extends SettingsPreferenceFragment {
              return builder.create();
          }
      }
-+    private void showRebootPrompt() {
++
++	private void showRebootPrompt() {
 +        AlertDialog dialog = new AlertDialog.Builder(getActivity())
 +                .setTitle(R.string.reboot_prompt_title)
 +                .setMessage(R.string.reboot_prompt_message)
