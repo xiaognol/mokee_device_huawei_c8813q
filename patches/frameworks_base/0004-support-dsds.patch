@@ -1,19 +1,19 @@
-From 17315794ee6b90857d6bfce7dfcf80ac086efd13 Mon Sep 17 00:00:00 2001
+From da98fbf1c280279ef3a8eb510f6ceeb53fedeb99 Mon Sep 17 00:00:00 2001
 From: xiaognol <317065820@qq.com>
-Date: Wed, 4 Jun 2014 20:48:56 +0800
+Date: Mon, 29 Sep 2014 22:41:01 +0800
 Subject: [PATCH] support dsds
 
-Change-Id: Ia512abb10793e0fa018617bcee09b21776adc577
+Change-Id: I8041c286177b30675087d920986c4cbdfc7882c3
 Signed-off-by: xiaognol <317065820@qq.com>
 ---
  .../android/internal/telephony/RILConstants.java   | 26 +++++++++++++---------
  1 file changed, 16 insertions(+), 10 deletions(-)
 
 diff --git a/telephony/java/com/android/internal/telephony/RILConstants.java b/telephony/java/com/android/internal/telephony/RILConstants.java
-index e132d53..72a0729 100644
+index 1c056a6..6dd6402 100644
 --- a/telephony/java/com/android/internal/telephony/RILConstants.java
 +++ b/telephony/java/com/android/internal/telephony/RILConstants.java
-@@ -284,14 +284,19 @@ cat include/telephony/ril.h | \
+@@ -287,14 +287,19 @@ cat include/telephony/ril.h | \
      int RIL_REQUEST_ACKNOWLEDGE_INCOMING_GSM_SMS_WITH_PDU = 106;
      int RIL_REQUEST_STK_SEND_ENVELOPE_WITH_STATUS = 107;
      int RIL_REQUEST_VOICE_RADIO_TECH = 108;
@@ -38,10 +38,10 @@ index e132d53..72a0729 100644
 +    int RIL_REQUEST_SET_SUBSCRIPTION_MODE = 122;
 +    int RIL_TETHERED_MODE_OFF = 0;
 +    int RIL_TETHERED_MODE_ON = 1;
- 
-     int RIL_UNSOL_RESPONSE_BASE = 1000;
-     int RIL_UNSOL_RESPONSE_RADIO_STATE_CHANGED = 1000;
-@@ -330,8 +335,9 @@ cat include/telephony/ril.h | \
+     int RIL_REQUEST_SIM_TRANSMIT_BASIC = 117;
+     int RIL_REQUEST_SIM_OPEN_CHANNEL = 118;
+     int RIL_REQUEST_SIM_CLOSE_CHANNEL = 119;
+@@ -338,8 +343,9 @@ cat include/telephony/ril.h | \
      int RIL_UNSOL_EXIT_EMERGENCY_CALLBACK_MODE = 1033;
      int RIL_UNSOL_RIL_CONNECTED = 1034;
      int RIL_UNSOL_VOICE_RADIO_TECH_CHANGED = 1035;
