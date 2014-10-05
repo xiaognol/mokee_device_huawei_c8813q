@@ -1,16 +1,16 @@
-From 7fa9e77ad04c1cfd9dfe7d31fe33484c10c314dd Mon Sep 17 00:00:00 2001
+From f7c5be61044093adab5099d68bec0bfc513eec31 Mon Sep 17 00:00:00 2001
 From: xiaognol <317065820@qq.com>
-Date: Sun, 14 Sep 2014 23:57:56 +0800
+Date: Sun, 5 Oct 2014 19:13:29 +0800
 Subject: [PATCH] Support-a-prebuilt-WebView
 
-Change-Id: I1b0aa7ea9a854a628b4e71a246a450030a9c4bc5
+Change-Id: I4a8cf49ae466abfc0fe8b12477c96644195d20e0
 Signed-off-by: xiaognol <317065820@qq.com>
 ---
- chromium/Android.mk | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ chromium/Android.mk | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/chromium/Android.mk b/chromium/Android.mk
-index d715221..19811bc 100644
+index bdcfaa3..20dd8e3 100644
 --- a/chromium/Android.mk
 +++ b/chromium/Android.mk
 @@ -19,6 +19,10 @@
@@ -24,19 +24,15 @@ index d715221..19811bc 100644
  # Java glue layer JAR, calls directly into the chromium AwContents Java API.
  include $(CLEAR_VARS)
  
-@@ -115,9 +119,11 @@ $(LOCAL_BUILT_MODULE): $(jar_check_ok)
+@@ -122,6 +126,8 @@ LOCAL_PREBUILT_STATIC_JAVA_LIBRARIES := android_webview_java:../../../prebuilts/
+ include $(BUILD_MULTI_PREBUILT)
  endif
  
- 
 +endif # PRODUCT_PREBUILT_WEBVIEWCHROMIUM
- 
++
  # Native support library (libwebviewchromium_plat_support.so) - does NOT link
--# any native chromium code.
-+# any native chromium code. This is built from source even if the product has
-+# a prebuilt webviewchromium to ensure ABI compatibility.
+ # any native chromium code.
  include $(CLEAR_VARS)
- 
- LOCAL_MODULE:= libwebviewchromium_plat_support
 -- 
 1.8.3.2
 
